@@ -5,8 +5,8 @@ description = "Markdown editor widget for Django Unfold admin"
 license = "MIT"
 readme = "README.md"
 authors = ["Sergey Vasiliev"]
-homepage = "https://github.com/sergey-vasiliev-dualboot/django-unfold-markdown"
-repository = "https://github.com/sergey-vasiliev-dualboot/django-unfold-markdown"
+homepage = "https://github.com/sergei-vasilev-dev/django-unfold-markdown"
+repository = "https://github.com/sergei-vasilev-dev/django-unfold-markdown"
 packages = [{ include = "unfold_markdown", from = "src" }]
 keywords = ["django", "unfold", "markdown", "admin", "easymde", "widget"]
 classifiers = [

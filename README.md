@@ -2,6 +2,14 @@
 
 Markdown editor widget for [Django Unfold](https://github.com/unfoldadmin/django-unfold) admin using [EasyMDE](https://github.com/Ionaru/easy-markdown-editor).
 
+## Screenshots
+
+### Editor with Preview
+![Markdown Editor](https://github.com/sergei-vasilev-dev/django-unfold-markdown/raw/main/docs/screenshots/editor-preview.png)
+
+### Fullscreen Mode
+![Fullscreen Mode](https://github.com/sergei-vasilev-dev/django-unfold-markdown/raw/main/docs/screenshots/editor-fullscreen.png)
+
 ## Features
 
 - **Plain text editor** with monospace font
@@ -89,6 +97,10 @@ html = mistune.html(article.content)
 ## License
 
 MIT License
+
+## Repository
+
+https://github.com/sergei-vasilev-dev/django-unfold-markdown
 
 ## Credits
 
