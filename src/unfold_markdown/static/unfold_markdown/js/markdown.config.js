@@ -177,8 +177,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
         textarea.easymde = easymde;
 
+        // Force refresh CodeMirror to fix display issues
+        setTimeout(() => {
+            if (easymde.codemirror) {
+                easymde.codemirror.refresh();
+            }
+        }, 100);
+
+        // Watch for tab changes in Django Admin to refresh editor
+        const tabButtons = document.querySelectorAll('.tab-navigation button, .tabbed-form-tabs button, [role="tab"]');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setTimeout(() => {
+                    if (easymde.codemirror) {
+                        easymde.codemirror.refresh();
+                    }
+                }, 150);
+            });
+        });
+
+        // Refresh on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (easymde.codemirror) {
+                    easymde.codemirror.refresh();
+                }
+            }, 200);
+        });
+
+        // Watch for visibility changes using IntersectionObserver
+        const visibilityObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && easymde.codemirror) {
+                    easymde.codemirror.refresh();
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const wrapper = textarea.closest('.markdown-widget-wrapper');
+        if (wrapper) {
+            visibilityObserver.observe(wrapper);
+        }
+
         // Watch for theme changes
-        const observer = new MutationObserver(function(mutations) {
+        const themeObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.attributeName === 'class') {
                     const isDark = document.documentElement.classList.contains('dark');
@@ -194,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        observer.observe(document.documentElement, {
+        themeObserver.observe(document.documentElement, {
             attributes: true,
             attributeFilter: ['class']
         });

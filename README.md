@@ -10,6 +10,11 @@ Markdown editor widget for [Django Unfold](https://github.com/unfoldadmin/django
 ### Fullscreen Mode
 ![Fullscreen Mode](https://github.com/sergei-vasilev-dev/django-unfold-markdown/raw/main/docs/screenshots/editor-fullscreen.png)
 
+
+### Editor inside tab and Dark theme
+![Editor tab and dark theme](https://github.com/sergei-vasilev-dev/django-unfold-markdown/raw/main/docs/screenshots/editor-tab-dark-theme.png)
+
+
 ## Features
 
 - **Plain text editor** with monospace font

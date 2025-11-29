@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-unfold-markdown"
-version = "0.1.0"
+version = "0.1.1"
 description = "Markdown editor widget for Django Unfold admin"
 license = "MIT"
 readme = "README.md"
