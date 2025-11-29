@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from django.forms import Widget
 
@@ -18,6 +18,6 @@ class MarkdownWidget(Widget):
             "unfold_markdown/js/markdown.config.js",
         )
 
-    def __init__(self, attrs: dict[str, Any] | None = None) -> None:
+    def __init__(self, attrs: Optional[dict[str, Any]] = None) -> None:
         super().__init__(attrs)
 
