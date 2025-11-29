@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "django-unfold-markdown"
+version = "0.1.0"
+description = "Markdown editor widget for Django Unfold admin"
+license = "MIT"
+readme = "README.md"
+authors = ["Sergey Vasiliev"]
+homepage = "https://github.com/sergey-vasiliev-dualboot/django-unfold-markdown"
+repository = "https://github.com/sergey-vasiliev-dualboot/django-unfold-markdown"
+packages = [{ include = "unfold_markdown", from = "src" }]
+keywords = ["django", "unfold", "markdown", "admin", "easymde", "widget"]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Framework :: Django",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+django = ">=4.2"
+django-unfold = ">=0.70.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4"
+pytest-django = "^4.11"
+ruff = "^0.14.4"
+
+[tool.ruff]
+fix = true
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "C", "B", "UP"]
+ignore = ["E501", "B905", "C901"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
