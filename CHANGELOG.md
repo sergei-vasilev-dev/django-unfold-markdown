@@ -3,6 +3,27 @@
 All notable changes to this project are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-08-31
+
+### Fixed
+
+- **Preview mode covered the whole admin page with a blank white sheet**
+  ([#1](https://github.com/sergei-vasilev-dev/django-unfold-markdown/issues/1)).
+  EasyMDE puts the class `editor-preview-full` on the *ordinary inline preview*
+  as well as the fullscreen one. `markdown.css` styled that class, unscoped, as
+  a fixed full-viewport overlay — intended for fullscreen — so clicking Preview
+  blanked out the page. The overlay is now scoped to `.CodeMirror-fullscreen`;
+  outside fullscreen EasyMDE's own absolute positioning correctly fills the
+  editor box. Fullscreen and side-by-side are unchanged.
+
+### Changed
+
+- **No more third-party CDN request.** EasyMDE injected a stylesheet link to
+  `maxcdn.bootstrapcdn.com` on every page carrying the widget. Every icon is
+  replaced with a Material Symbol and `i.fa` is hidden, so the download bought
+  nothing while leaking referrer data and breaking offline or air-gapped
+  deployments. Disabled via `autoDownloadFontAwesome: false`.
+
 ## [0.2.0] - 2026-08-31
 
 Thanks to [@GaspardMerten](https://github.com/GaspardMerten), whose
