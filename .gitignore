@@ -1,11 +1,27 @@
+# Python
 *.pyc
 __pycache__/
 *.egg-info/
 dist/
 build/
+
+# Tooling
 .pytest_cache/
 .ruff_cache/
-*.sqlite3
+.coverage
+htmlcov/
+
+# Environments
 .venv/
 venv/
+.env
 
+# Demo project artefacts (see README > Local development)
+*.sqlite3
+demo/media/
+
+# Local tooling
+.claude/
+
+# macOS
+.DS_Store
