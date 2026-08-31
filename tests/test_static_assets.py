@@ -41,3 +41,47 @@ def test_config_has_no_third_party_urls():
     for line in js.splitlines():
         if "http" in line and "markdownguide.org" not in line:
             assert line.strip().startswith("//"), line
+
+
+def _markdown_css() -> str:
+    return (STATIC / "css" / "markdown.css").read_text()
+
+
+def test_fullscreen_preview_overlay_stays_scoped():
+    """Regression for #1: preview covered the whole page.
+
+    EasyMDE puts `editor-preview-full` on the ordinary inline preview too, not
+    only the fullscreen one. An unscoped `.editor-preview-full { position:
+    fixed; inset: 50px 0 0 0 }` therefore turns a plain Preview click into a
+    full-viewport white sheet over the admin. Every rule targeting that class
+    must be qualified with .CodeMirror-fullscreen.
+    """
+    for line in _markdown_css().splitlines():
+        stripped = line.strip()
+        if "editor-preview-full" not in stripped or stripped.startswith("*"):
+            continue
+        if not stripped.endswith("{") and "," not in stripped:
+            continue
+        assert ".CodeMirror-fullscreen" in stripped, (
+            f"unscoped editor-preview-full selector would cover the page: {stripped}"
+        )
+
+
+def test_inline_preview_typography_is_styled():
+    """The inline preview carries both `editor-preview` and `editor-preview-full`,
+    so the prose rules keyed on `.editor-preview` reach it."""
+    css = _markdown_css()
+    for selector in [
+        ".markdown-widget-wrapper .editor-preview h1",
+        ".markdown-widget-wrapper .editor-preview table",
+        ".markdown-widget-wrapper .editor-preview blockquote",
+    ]:
+        assert selector in css, selector
+
+
+def test_fontawesome_cdn_download_is_disabled():
+    """EasyMDE injects a <link> to maxcdn.bootstrapcdn.com unless told not to.
+    Every icon is swapped for a Material Symbol, so that request buys nothing
+    and makes the admin depend on a third-party host."""
+    js = (STATIC / "js" / "markdown.config.js").read_text()
+    assert "autoDownloadFontAwesome: false" in js

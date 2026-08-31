@@ -1,6 +1,6 @@
 [project]
 name = "django-unfold-markdown"
-version = "0.2.0"
+version = "0.2.1"
 description = "Markdown editor widget for Django Unfold admin"
 readme = "README.md"
 license = "MIT"
