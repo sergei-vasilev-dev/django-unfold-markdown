@@ -293,7 +293,12 @@
     z-index: 999!important;
 }
 
-.editor-preview-full {
+/* EasyMDE gives the ordinary inline preview the class `editor-preview-full`
+   too, not just the fullscreen one -- so this overlay MUST stay scoped to
+   .CodeMirror-fullscreen. Unscoped, clicking Preview covers the whole page
+   with a fixed white sheet. Outside fullscreen, EasyMDE's own
+   `position: absolute; width/height: 100%` correctly fills the editor box. */
+.CodeMirror-fullscreen .editor-preview-full {
     background: white;
     border: 1px solid rgb(228 228 231);
     border-top: none;
@@ -400,7 +405,7 @@
     background: rgb(24 24 27);
 }
 
-.dark .editor-preview-full {
+.dark .CodeMirror-fullscreen .editor-preview-full {
     background: rgb(24 24 27);
     border-color: rgb(63 63 70);
 }
