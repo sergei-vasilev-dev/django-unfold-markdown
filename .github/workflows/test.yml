@@ -1,0 +1,87 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} / Django ${{ matrix.django }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Oldest supported floor: Django 4.2 LTS with the 0.70-era Unfold.
+          - python-version: "3.10"
+            django: "4.2"
+          - python-version: "3.11"
+            django: "5.1"
+          - python-version: "3.12"
+            django: "5.2"
+          # Newest of everything.
+          - python-version: "3.13"
+            django: "latest"
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run tests
+        run: |
+          if [ "${{ matrix.django }}" = "latest" ]; then
+            uv run --isolated --with pytest --with pytest-django pytest -v
+          else
+            uv run --isolated \
+              --with "django~=${{ matrix.django }}.0" \
+              --with pytest --with pytest-django pytest -v
+          fi
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Ruff
+        run: |
+          uv run --isolated --with ruff ruff check --no-fix .
+          uv run --isolated --with ruff ruff format --check .
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Build distributions
+        run: uv build
+
+      - name: Check metadata
+        run: uv run --isolated --with twine twine check dist/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
