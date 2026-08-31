@@ -146,6 +146,11 @@
         var easymde = new EasyMDE({
             element: textarea,
             spellChecker: false,
+            // Every FontAwesome icon is replaced with a Material Symbol below and
+            // `i.fa` is hidden in CSS, so EasyMDE's automatic <link> to
+            // maxcdn.bootstrapcdn.com is a wasted third-party request on every
+            // admin page -- and a hard dependency on an external host.
+            autoDownloadFontAwesome: false,
             autosave: {
                 enabled: false,
             },
